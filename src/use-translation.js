@@ -8,7 +8,6 @@ const en = require("./lang/lang.en.json");
 const ja = require("./lang/lang.ja.json");
 const zh = require("./lang/lang.zh.json");
 
-// Set the key-value pairs for the different languages you want to support.
 const i18n = new I18n({
   ko,
   en,
@@ -24,7 +23,7 @@ export const useTranslation = () => {
   const [locale, _setLocale] = useState(null);
 
   const setLocale = (v) => {
-    _setLocale();
+    _setLocale(v);
     AsyncStorage.setItem(LOCALE_KEY, v);
   };
 
@@ -42,8 +41,8 @@ export const useTranslation = () => {
   }, []);
 
   return {
-    setLocale,
     locale,
+    setLocale,
     t: (scope) => i18n.t(scope, { locale }),
   };
 };
