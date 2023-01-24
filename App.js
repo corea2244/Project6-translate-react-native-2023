@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -18,13 +18,18 @@ export default function App() {
   const { t, locale, setLocale } = useTranslation();
   const { cookieKey } = useCookie();
 
-  useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hideAsync();
-    }, 2000);
-  }, []);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  if (locale === null) return null;
+  useEffect(() => {
+    if (locale !== null && cookieKey !== "") {
+      setIsLoaded(true);
+    }
+  }, [locale, cookieKey]);
+  useEffect(() => {
+    if (isLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [isLoaded]);
 
   return (
     <View style={styles.container}>
